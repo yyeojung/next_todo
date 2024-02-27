@@ -17,7 +17,7 @@ export default async function TodosgPage() {
         <div className="flex flex-col space-y-8">
 			<h1 className={title()}>TodosgPage</h1>
             <TodosTable todos={response.data ?? []}/>
-            <TodosTable todos={[]}/>
+            {/* <TodosTable todos={[]}/> */}
 		</div>
 	);
 }
