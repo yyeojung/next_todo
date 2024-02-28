@@ -5,24 +5,31 @@ import {
     TableRow, TableCell, Input, Button, Popover, 
     PopoverTrigger, PopoverContent} from "@nextui-org/react";
 import { Todo } from "@/types";
+import { useRouter } from "next/navigation"
 
 export default function TodosTable({todos}: {todos: Todo[]}) {
     // 할일 추가 가능 여부
     const [todoAddEnable, setTodoAddEnable] = useState(false);
     //입력된 할일
     const [newTodoInput, setNewTodoInput] = useState('');
-    const addATodoHandler = async () => {
+    //랜더링
+    const router = useRouter();
+
+    //할일 추가 이벤트
+    const addATodoHandler = async (title: string) => {
         if (newTodoInput.length < 1){
             console.log('글자를 입력하시오')
             return
         }
-        await fetch(`${process.env.BASE_URL}/api/todos/`, {
+        await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/todos`, {
             method: 'post',
             body: JSON.stringify({
-                title: newTodoInput
+                title: title
             }),
             cache: 'no-store'
         });
+        router.refresh();
+        setNewTodoInput('');
         console.log(`할일 ㅊ ㅜ가 완료 : ${newTodoInput}`)
     }
 
@@ -58,8 +65,9 @@ export default function TodosTable({todos}: {todos: Todo[]}) {
                 type="text" 
                 label="새로운 할일" 
                 value={newTodoInput}
-                onChange={(e) => {
-                    setTodoAddEnable(e.target.value.length > 0);
+                onValueChange={(changedInput) => {
+                    setNewTodoInput(changedInput);
+                    setTodoAddEnable(changedInput.length > 0);
                 }} 
             />
             {todoAddEnable ? 
@@ -67,7 +75,7 @@ export default function TodosTable({todos}: {todos: Todo[]}) {
                     color="warning" 
                     className="h-14"
                     onPress={async () => {
-                        await addATodoHandler();
+                        await addATodoHandler(newTodoInput)
                     }}
                 >추가</Button> :
                 <DisabledTodoAddBtn/>

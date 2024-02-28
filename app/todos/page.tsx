@@ -3,8 +3,10 @@ import TodosTable from "@/components/todos-table";
 import { fetchTodos } from "@/data/firestore";
 
 async function fetchTodosApiCall() {
-    const res = await fetch(`${process.env.BASE_URL}/api/todos/`)
-
+    const res = await fetch(`${process.env.BASE_URL}/api/todos/`, {
+        cache: 'no-store'
+    });
+    
     if(!res.ok) {
         throw new Error('Failed to fetch data')
     }
@@ -13,6 +15,7 @@ async function fetchTodosApiCall() {
 }
 export default async function TodosgPage() {
     const response = await fetchTodosApiCall();
+    
 	return (
         <div className="flex flex-col space-y-8">
 			<h1 className={title()}>TodosgPage</h1>
