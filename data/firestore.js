@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { 
-    getFirestore, getDocs, collection, getDoc, 
+    query, orderBy,getFirestore, getDocs, collection, getDoc, 
     setDoc, doc, Timestamp , deleteDoc, updateDoc 
 } from "firebase/firestore";
 
@@ -24,7 +24,12 @@ const db = getFirestore(app);
 
 //모든 할 일 가져오기
 export async function fetchTodos() {
-    const querySnapshot = await getDocs(collection(db, "todos"));
+
+    // 할일 내림차순 정리
+    const todosRef = collection(db, "todos")
+    const descQuery = query(todosRef, orderBy("created_at", "desc"));
+
+    const querySnapshot = await getDocs(descQuery);
 
     if (querySnapshot.empty) {
         return [];
