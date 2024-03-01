@@ -13,11 +13,7 @@ const CustomModal = ({}: {}) => {
     <>
       <ModalHeader className="flex flex-col gap-1">{currentModalData.modalType}</ModalHeader>
       <ModalBody>
-          <p> 
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Nullam pulvinar risus non risus hendrerit venenatis.
-          Pellentesque sit amet hendrerit risus, sed porttitor quam.
-          </p>
+          <p>깃허브 업로드</p>
       </ModalBody>
       <ModalFooter>
           <Button color="danger" variant="light" onPress={onClose} >
